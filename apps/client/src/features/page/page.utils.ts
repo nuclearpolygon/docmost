@@ -19,5 +19,5 @@ export const buildPageUrl = (
   if (spaceName === undefined) {
     return `/${buildPageSlug(pageSlugId, pageTitle)}`;
   }
-  return `/s/${spaceName}/${buildPageSlug(pageSlugId, pageTitle)}`;
+  return `/sp/${spaceName}/${buildPageSlug(pageSlugId, pageTitle)}`;
 };
