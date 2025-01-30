@@ -1,39 +1,44 @@
-version: '3'
-
+name: wiki
 services:
   docmost:
-    image: docmost/docmost:latest
+    image: ru1-vd-cg-002.lesta.group:5500/docmost:latest
     depends_on:
-      - db
+      # - db
       - redis
     environment:
-      APP_URL: 'http://localhost:3000'
-      APP_SECRET: 'REPLACE_WITH_LONG_SECRET'
-      DATABASE_URL: 'postgresql://docmost:STRONG_DB_PASSWORD@db:5432/docmost?schema=public'
-      REDIS_URL: 'redis://redis:6379'
+      APP_URL: "https://ru1-cgvideo-01.lesta.group"
+      PORT: 3000
+      APP_SECRET: ${DOCMOST_SECRET}
+      DATABASE_URL: "postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:5432/docmost?schema=public"
+      # DATABASE_URL: "postgresql://docmost:123456@db:5432/docmost?schema=public"
+      REDIS_URL: "redis://redis:6379"
+      MAIL_DRIVER: "smtp"
+      SMTP_HOST: "mailpit"
+      SMTP_PORT: 1025
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      MAIL_FROM_ADDRESS: "no-reply@example.com"
+      MAIL_FROM_NAME: "Docmost"
+      FILE_UPLOAD_SIZE_LIMIT: "200mb"
     ports:
       - "3000:3000"
-    restart: unless-stopped
+    restart: always
     volumes:
-      - docmost:/app/data/storage
-
-  db:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_DB: docmost
-      POSTGRES_USER: docmost
-      POSTGRES_PASSWORD: STRONG_DB_PASSWORD
-    restart: unless-stopped
-    volumes:
-      - db_data:/var/lib/postgresql/data
+      - ./docmost:/app/data/storage
 
   redis:
     image: redis:7.2-alpine
-    restart: unless-stopped
+    restart: always
     volumes:
-      - redis_data:/data
-
+      - ./redis_data:/data
+  mailpit:
+    image: "axllent/mailpit:latest"
+    restart: always
+    environment:
+      - SERVICE_FQDN_MAILPIT_8025
+      - MP_UI_AUTH=${MP_UI_AUTH:-${SMTP_USERNAME}:${SMTP_PASSWORD}}
+    ports:
+      - "8025:8025"
 volumes:
   docmost:
-  db_data:
   redis_data:
