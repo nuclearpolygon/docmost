@@ -6,7 +6,6 @@ import { Helmet } from "react-helmet-async";
 import PageHeader from "@/features/page/components/header/page-header.tsx";
 import { extractPageSlugId } from "@/lib";
 import { useGetSpaceBySlugQuery } from "@/features/space/queries/space-query.ts";
-import { useMemo } from "react";
 import { useSpaceAbility } from "@/features/space/permissions/use-space-ability.ts";
 import {
   SpaceCaslAction,
@@ -25,7 +24,7 @@ export default function Page() {
   const { data: space } = useGetSpaceBySlugQuery(page?.space?.slug);
 
   const spaceRules = space?.membership?.permissions;
-  const spaceAbility =  useSpaceAbility(spaceRules);
+  const spaceAbility = useSpaceAbility(spaceRules);
 
   if (isLoading) {
     return <></>;
@@ -55,8 +54,10 @@ export default function Page() {
         />
 
         <FullEditor
+          key={page.id}
           pageId={page.id}
           title={page.title}
+          content={page.content}
           slugId={page.slugId}
           spaceSlug={page?.space?.slug}
           editable={spaceAbility.can(
