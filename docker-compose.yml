@@ -25,17 +25,21 @@ services:
       - ./docmost:/app/data/storage
     networks:
       - vcg
+      - wiki
 
   redis:
     image: redis:7.2-alpine
     restart: always
     volumes:
       - ./redis_data:/data
+    networks:
+      - wiki
 volumes:
   docmost:
   redis_data:
 
 networks:
+  wiki:
   vcg:
     external: true
     name: vcg
