@@ -1,23 +1,21 @@
 name: wiki
 services:
   docmost:
-    image: ru1-vd-cg-002.lesta.group:5500/docmost:latest
+    image: artifactory.lesta.io:443/vcg-docker/docmost:latest
     depends_on:
-      # - db
       - redis
     environment:
-      APP_URL: "https://ru1-cgvideo-01.lesta.group"
+      APP_URL: "https://cgdocs.lesta.group"
       PORT: 3000
       APP_SECRET: ${DOCMOST_SECRET}
-      DATABASE_URL: "postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:5432/docmost?schema=public"
-      # DATABASE_URL: "postgresql://docmost:123456@db:5432/docmost?schema=public"
+      DATABASE_URL: "postgresql://postgres:${DB_PASSWORD}@${DB_HOST}:5432/docmost?schema=public"
       REDIS_URL: "redis://redis:6379"
       MAIL_DRIVER: "smtp"
-      SMTP_HOST: "mailpit"
-      SMTP_PORT: 1025
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
       SMTP_USERNAME: ${SMTP_USERNAME}
       SMTP_PASSWORD: ${SMTP_PASSWORD}
-      MAIL_FROM_ADDRESS: "no-reply@example.com"
+      MAIL_FROM_ADDRESS: "job-vcg_smtp@lesta.group"
       MAIL_FROM_NAME: "Docmost"
       FILE_UPLOAD_SIZE_LIMIT: "200mb"
     ports:
@@ -25,20 +23,19 @@ services:
     restart: always
     volumes:
       - ./docmost:/app/data/storage
+    networks:
+      - vcg
 
   redis:
     image: redis:7.2-alpine
     restart: always
     volumes:
       - ./redis_data:/data
-  mailpit:
-    image: "axllent/mailpit:latest"
-    restart: always
-    environment:
-      - SERVICE_FQDN_MAILPIT_8025
-      - MP_UI_AUTH=${MP_UI_AUTH:-${SMTP_USERNAME}:${SMTP_PASSWORD}}
-    ports:
-      - "8025:8025"
 volumes:
   docmost:
   redis_data:
+
+networks:
+  vcg:
+    external: true
+    name: vcg
