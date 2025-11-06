@@ -79,10 +79,10 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path={"/home"} element={<Home />} />
           <Route path={"/spaces"} element={<SpacesPage />} />
-          <Route path={"/s/:spaceSlug"} element={<SpaceHome />} />
-          <Route path={"/s/:spaceSlug/trash"} element={<SpaceTrash />} />
+          <Route path={"/sp/:spaceSlug"} element={<SpaceHome />} />
+          <Route path={"/sp/:spaceSlug/trash"} element={<SpaceTrash />} />
           <Route
-            path={"/s/:spaceSlug/p/:pageSlug"}
+            path={"/sp/:spaceSlug/p/:pageSlug"}
             element={
               <ErrorBoundary
                 fallback={<>{t("Failed to load page. An error occurred.")}</>}

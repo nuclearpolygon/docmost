@@ -19,7 +19,7 @@ export const buildPageUrl = (
   if (spaceName === undefined) {
     return `/p/${buildPageSlug(pageSlugId, pageTitle)}`;
   }
-  return `/s/${spaceName}/p/${buildPageSlug(pageSlugId, pageTitle)}`;
+  return `/sp/${spaceName}/p/${buildPageSlug(pageSlugId, pageTitle)}`;
 };
 
 export const buildSharedPageUrl = (opts: {

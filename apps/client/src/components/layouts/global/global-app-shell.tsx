@@ -71,7 +71,7 @@ export default function GlobalAppShell({
 
   const location = useLocation();
   const isSettingsRoute = location.pathname.startsWith("/settings");
-  const isSpaceRoute = location.pathname.startsWith("/s/");
+  const isSpaceRoute = location.pathname.startsWith("/sp/");
   const isHomeRoute = location.pathname.startsWith("/home");
   const isSpacesRoute = location.pathname === "/spaces";
   const isPageRoute = location.pathname.includes("/p/");
