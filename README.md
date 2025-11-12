@@ -22,7 +22,9 @@
     the machine you are running this on has to be configured to connect to that server and user with ssh key  
     `DOCMOST_SECRET`  
     `DB_PASSWORD`  
-2. Make sure SSL certificates are located at `${LC_COMMON_ROOT}/certs/public/cg_docs.pem` and `${LC_COMMON_ROOT}/certs/private/cg_docs.key` on the remote server
+2. Make sure SSL certificates are located at  
+    `${LC_COMMON_ROOT}/certs/public/cg_docs.pem` and   
+     `${LC_COMMON_ROOT}/certs/private/cg_docs.key` on the remote server
 3. run `make build_deploy` or `make deploy` (if image does not need to be built)
 
 ## Features
