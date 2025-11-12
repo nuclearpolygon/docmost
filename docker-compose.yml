@@ -1,6 +1,7 @@
 name: wiki
 services:
   docmost:
+    container_name: docmost
     image: artifactory.lesta.io:443/vcg-docker/docmost:latest
     build:
       context: .
@@ -18,6 +19,7 @@ services:
       - ${PROJECT_ROOT}/storage:/app/data/storage
 
   db:
+    container_name: db
     image: postgres:17-trixie
     volumes:
       - ${PROJECT_ROOT}/postgres_data:/var/lib/postgresql/data
@@ -30,6 +32,7 @@ services:
       - "5434:5432"
 
   redis:
+    container_name: redis
     image: redis:7.2-alpine
     restart: always
     volumes:
