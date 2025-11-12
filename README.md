@@ -12,7 +12,18 @@
 
 ## Getting started
 
-To get started with Docmost, please refer to our [documentation](https://docmost.com/docs) or try our [cloud version](https://docmost.com/pricing) .
+### Prerequisites
+
+1. Define environment variables  
+    rename `.env.example` to `.env` and fill in all mandatory variables which are:  
+    `DOCKER_CONTEXT_NAME` - any meaningful name  
+    `LC_COMMON_ROOT` - root directory for all projects, this project will create its volumes at `${LC_COMMON_ROOT}/docmost`  
+    `SSH_URL` - remote user and server `remote_username@my-server.local`. 
+    the machine you are running this on has to be configured to connect to that server and user with ssh key  
+    `DOCMOST_SECRET`  
+    `DB_PASSWORD`  
+2. Make sure SSL certificates are located at `${LC_COMMON_ROOT}/certs/public/cg_docs.pem` and `${LC_COMMON_ROOT}/certs/private/cg_docs.key` on the remote server
+3. run `make build_deploy` or `make deploy` (if image does not need to be built)
 
 ## Features
 
