@@ -26,13 +26,13 @@ scp_files:
 
 restart_nginx: scp_files
 	@echo "restart nginx"
-		@cat .env | ssh ${SSH_URL} -qt 'bash -xc '\''\
+		@cat .env | ssh ${SSH_URL} -qt 'bash -c '\''\
 		args=$$(find ${LC_COMMON_ROOT} -maxdepth 1  -name compose.nginx.*.yml -print0 | xargs -0 -I {} echo -f {}); \
 		docker compose $$args down && docker compose $$args up -d'\'''
 
 restart_nginx_deploy:
 	@echo "restart nginx"
-		@cat .env | ssh ${SSH_URL} -qt 'bash -xc '\''\
+		@cat .env | ssh ${SSH_URL} -qt 'bash -c '\''\
 		args=$$(find ${LC_COMMON_ROOT} -maxdepth 1  -name compose.nginx.*.yml -print0 | xargs -0 -I {} echo -f {}); \
 		docker compose $$args down && docker compose $$args up -d'\'''
 
