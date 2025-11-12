@@ -2,38 +2,41 @@ name: wiki
 services:
   docmost:
     image: artifactory.lesta.io:443/vcg-docker/docmost:latest
+    build:
+      context: .
+      target: installer
     depends_on:
       - redis
-    environment:
-      APP_URL: "https://cgdocs.lesta.group"
-      PORT: 3000
-      APP_SECRET: ${DOCMOST_SECRET}
-      DATABASE_URL: "postgresql://postgres:${DB_PASSWORD}@${DB_HOST}:5432/docmost?schema=public"
-      REDIS_URL: "redis://redis:6379"
-      MAIL_DRIVER: "smtp"
-      SMTP_HOST: ${SMTP_HOST}
-      SMTP_PORT: ${SMTP_PORT}
-      SMTP_USERNAME: ${SMTP_USERNAME}
-      SMTP_PASSWORD: ${SMTP_PASSWORD}
-      MAIL_FROM_ADDRESS: "job-vcg_smtp@lesta.group"
-      MAIL_FROM_NAME: "Docmost"
-      FILE_UPLOAD_SIZE_LIMIT: "200mb"
-    ports:
-      - "3000:3000"
+      - db
     restart: always
-    volumes:
-      - ./docmost:/app/data/storage
+    env_file:
+      - docmost.env
     networks:
-      - vcg
       - wiki
+      - vcg
+    volumes:
+      - ${PROJECT_ROOT}/storage:/app/data/storage
+
+  db:
+    image: postgres:17-trixie
+    volumes:
+      - ${PROJECT_ROOT}/postgres_data:/var/lib/postgresql/data
+
+    env_file:
+      - db.env
+    networks:
+      - wiki
+    ports:
+      - "5434:5432"
 
   redis:
     image: redis:7.2-alpine
     restart: always
     volumes:
-      - ./redis_data:/data
+      - ${PROJECT_ROOT}/redis_data:/data
     networks:
       - wiki
+
 volumes:
   docmost:
   redis_data:
