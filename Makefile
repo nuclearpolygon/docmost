@@ -43,3 +43,9 @@ deploy: check_folders init_context scp_files
 	@$(MAKE) reset_context
 
 build_deploy: build deploy
+
+generate_cert:
+	@pushd ssl > /dev/null
+	@[ -f ayon.key ] || openssl genrsa -out cg_docs.key 2048
+	@openssl req -new -key cg_docs.key -out cg_docs.csr -config san.cnf
+	@popd > /dev/null
