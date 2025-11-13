@@ -10,6 +10,7 @@ check_folders:
 init_context:
 	@echo "DOCKER CONTEXT IS ${DOCKER_CONTEXT_NAME}"
 	@docker context ls | grep -E "${DOCKER_CONTEXT_NAME}[[:alnum:]_ *]+ssh://${SSH_URL}" || docker context create --docker "host=ssh://${SSH_URL}" --description="kitsu deploy context" "${DOCKER_CONTEXT_NAME}"
+	@docker network ls | grep -E ' vcg ' || docker network create vcg
 	@docker context show | grep "${DOCKER_CONTEXT_NAME}" || docker context use "${DOCKER_CONTEXT_NAME}"
 
 reset_context:
