@@ -16,13 +16,13 @@ services:
       - wiki
       - vcg
     volumes:
-      - ${PROJECT_ROOT}/storage:/app/data/storage
+      - "${PROJECT_ROOT}/storage:/app/data/storage"
 
   db:
     container_name: db
     image: postgres:17-trixie
     volumes:
-      - ${PROJECT_ROOT}/postgres_data:/var/lib/postgresql/data
+      - "${PROJECT_ROOT}/postgres_data:/var/lib/postgresql/data"
 
     env_file:
       - db.env
@@ -36,13 +36,9 @@ services:
     image: redis:7.2-alpine
     restart: always
     volumes:
-      - ${PROJECT_ROOT}/redis_data:/data
+      - "${PROJECT_ROOT}/redis_data:/data"
     networks:
       - wiki
-
-volumes:
-  docmost:
-  redis_data:
 
 networks:
   wiki:
